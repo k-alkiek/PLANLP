@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import torch
 import torch.nn.functional as F
-from torch_geometric.nn import SAGEConv, GCNConv, GraphConv, TransformerConv
+from torch_geometric.nn import SAGEConv, GCNConv, GraphConv, TransformerConv, GATConv
 
 
 class BaseGNN(torch.nn.Module):
@@ -62,6 +62,13 @@ class Transformer(BaseGNN):
             second_channels = out_channels if i == num_layers - 1 else hidden_channels
             self.convs.append(TransformerConv(first_channels, second_channels))
 
+class GAT(BaseGNN):
+    def __init__(self, in_channels, hidden_channels, out_channels, num_layers, dropout):
+        super(GAT, self).__init__(dropout, num_layers)
+        for i in range(num_layers):
+            first_channels = in_channels if i == 0 else hidden_channels
+            second_channels = out_channels if i == num_layers - 1 else hidden_channels
+            self.convs.append(GATConv(first_channels, second_channels))
 
 class MLPPredictor(torch.nn.Module):
     def __init__(self, in_channels, hidden_channels, out_channels, num_layers, dropout):

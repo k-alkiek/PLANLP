@@ -185,6 +185,10 @@ def main():
         row, col, edge_weight = data.adj_t.coo()
         data.adj_t = SparseTensor(row=row, col=col)
 
+    if args.encoder.upper() == 'GAT':
+        # Pre-compute GAT normalization.
+        data.adj_t = gat_normalization(data.adj_t)
+
     model = BaseModel(
         lr=args.lr,
         dropout=args.dropout,

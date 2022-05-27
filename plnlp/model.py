@@ -256,6 +256,8 @@ def create_gnn_layer(input_channels, hidden_channels, num_layers, dropout=0, enc
         return WSAGE(input_channels, hidden_channels, hidden_channels, num_layers, dropout)
     elif encoder_name.upper() == 'TRANSFORMER':
         return Transformer(input_channels, hidden_channels, hidden_channels, num_layers, dropout)
+    elif encoder_name.upper() == 'GAT':
+        return GAT(input_channels, hidden_channels, hidden_channels, num_layers, dropout)
     else:
         return SAGE(input_channels, hidden_channels, hidden_channels, num_layers, dropout)
 
